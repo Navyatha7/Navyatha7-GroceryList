@@ -17,58 +17,39 @@ import java.util.List;
  */
 public class GroceryDAO {
 
-
     /**
-     * TODO: Select all of the rows of the Grocery table.
-     * You only need to change the sql String, the rest of the method is already complete.
+     * Select all of the rows of the Grocery table.
      * @return a List of all the groceries contained within the database.
      */
-    public List<String> getAllGroceries(){
+    public List<String> getAllGroceries() {
         Connection connection = ConnectionUtil.getConnection();
         List<String> groceries = new ArrayList<>();
         try {
-            //Write SQL logic here
-            String sql = "change me";
+            String sql = "SELECT * FROM Grocery";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 groceries.add(rs.getString("grocery_name"));
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return groceries;
     }
+
     /**
-     * TODO: Insert a new row into the Grocery table, which contains a column named grocery_name.
-     * A parameter groceryName is also provided, which should be the value used for grocery_name when inserting a
-     * grocery. For instance, calling groceryDAO.addGrocery("bread"); should insert a record into the grocery table
-     * with the value 'bread' for the grocery_name column.
-     *
-     * You should use the preparedStatement syntax for filling in unknown parameters with a '?'.
-     * For instance, an insert statement would be written as:
-     * String sql = "INSERT INTO TABLE (Column1, Column2) VALUES (?, ?)"
-     * The question marks can be filled in by the methods setString, setInt, etc of the PreparedStatement. They follow
-     * this format, where the first argument identifies the question mark to be filled (left to right, starting
-     * from one) and the second argument identifies the variable to be used:
-     * preparedStatement.setString(1,int1);
-     * preparedStatement.setInt(2,string2);
-     *
-     * @param groceryName the name of the grocery passed in from the GroceryService.
+     * Insert a new row into the Grocery table, using the provided grocery name.
+     * @param groceryName the name of the grocery to be inserted.
      */
-    public void addGrocery(String groceryName){
+    public void addGrocery(String groceryName) {
         Connection connection = ConnectionUtil.getConnection();
         try {
-            //Write SQL logic here
-            String sql = "change me";
+            String sql = "INSERT INTO Grocery (grocery_name) VALUES (?)";
             PreparedStatement ps = connection.prepareStatement(sql);
-
-            //add code that leverages ps.setString here
-
+            ps.setString(1, groceryName);
             ps.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 }
